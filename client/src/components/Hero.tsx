@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import AnimatedBackground from './AnimatedBackground';
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -38,13 +39,14 @@ export default function Hero() {
       ref={heroRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary/5 via-background to-orange/5 pt-20"
     >
+      <AnimatedBackground />
       <div
         ref={floatingRef}
         className="absolute inset-0 overflow-hidden pointer-events-none"
       >
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-orange/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
@@ -73,7 +75,7 @@ export default function Hero() {
             <Button
               size="lg"
               onClick={() => scrollToSection('contact')}
-              className="bg-orange hover:bg-orange/90 text-orange-foreground text-lg px-8 py-6 hover-elevate active-elevate-2"
+              className="bg-orange hover:bg-orange/90 text-orange-foreground text-lg px-8 py-6 hover-elevate active-elevate-2 ripple-effect"
               data-testid="button-hero-book-call"
             >
               Book A Free Call
@@ -83,7 +85,7 @@ export default function Hero() {
               size="lg"
               variant="outline"
               onClick={() => scrollToSection('services')}
-              className="text-lg px-8 py-6 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+              className="text-lg px-8 py-6 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
               data-testid="button-hero-discover"
             >
               Discover Your Path
