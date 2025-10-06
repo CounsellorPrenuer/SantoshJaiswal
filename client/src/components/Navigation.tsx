@@ -24,11 +24,11 @@ export default function Navigation() {
   };
 
   const navLinks = [
-    { label: 'Why Mentoria', id: 'why-choose' },
-    { label: 'Career Guidance', id: 'services' },
-    { label: 'Workshops & Seminars', id: 'services' },
-    { label: 'Admission Support', id: 'services' },
-    { label: 'Contact Us', id: 'contact' },
+    { label: 'Why Mentoria', id: 'why-choose', key: 'why-mentoria' },
+    { label: 'Career Guidance', id: 'services', key: 'career-guidance' },
+    { label: 'Workshops & Seminars', id: 'services', key: 'workshops' },
+    { label: 'Admission Support', id: 'services', key: 'admission' },
+    { label: 'Contact Us', id: 'contact', key: 'contact' },
   ];
 
   return (
@@ -55,10 +55,10 @@ export default function Navigation() {
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <button
-                key={link.id}
+                key={link.key}
                 onClick={() => scrollToSection(link.id)}
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                data-testid={`link-${link.id}`}
+                data-testid={`link-${link.key}`}
               >
                 {link.label}
               </button>
@@ -68,8 +68,8 @@ export default function Navigation() {
           <div className="hidden md:block">
             <Button
               onClick={() => scrollToSection('contact')}
-              className="bg-orange hover:bg-orange/90 text-orange-foreground hover-elevate active-elevate-2"
-              data-testid="button-book-call"
+              className="bg-orange hover:bg-orange/90 text-orange-foreground hover-elevate active-elevate-2 ripple-effect"
+              data-testid="button-nav-book-call"
             >
               Book A Free Call
             </Button>
@@ -94,18 +94,18 @@ export default function Navigation() {
           <div className="px-4 py-6 space-y-4">
             {navLinks.map((link) => (
               <button
-                key={link.id}
+                key={link.key}
                 onClick={() => scrollToSection(link.id)}
                 className="block w-full text-left text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
-                data-testid={`link-mobile-${link.id}`}
+                data-testid={`link-mobile-${link.key}`}
               >
                 {link.label}
               </button>
             ))}
             <Button
               onClick={() => scrollToSection('contact')}
-              className="w-full bg-orange hover:bg-orange/90 text-orange-foreground"
-              data-testid="button-mobile-book-call"
+              className="w-full bg-orange hover:bg-orange/90 text-orange-foreground ripple-effect"
+              data-testid="button-nav-mobile-book-call"
             >
               Book A Free Call
             </Button>

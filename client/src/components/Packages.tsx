@@ -104,7 +104,7 @@ export default function Packages() {
                     pkg.popular
                       ? 'bg-orange hover:bg-orange/90 text-orange-foreground'
                       : 'bg-primary hover:bg-primary/90 text-primary-foreground'
-                  } hover-elevate active-elevate-2`}
+                  } hover-elevate active-elevate-2 ripple-effect`}
                   onClick={scrollToContact}
                   data-testid={`button-package-${index}`}
                 >

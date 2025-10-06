@@ -86,7 +86,7 @@ export default function Founder() {
                   <Button
                     size="lg"
                     onClick={scrollToContact}
-                    className="bg-orange hover:bg-orange/90 text-orange-foreground w-full hover-elevate active-elevate-2"
+                    className="bg-orange hover:bg-orange/90 text-orange-foreground w-full hover-elevate active-elevate-2 ripple-effect"
                     data-testid="button-founder-cta"
                   >
                     Book a Free Call

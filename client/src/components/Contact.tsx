@@ -100,7 +100,7 @@ export default function Contact() {
                           rel="noopener noreferrer"
                           className="w-12 h-12 bg-primary/10 hover:bg-primary hover:text-primary-foreground rounded-lg flex items-center justify-center transition-all hover-elevate active-elevate-2"
                           aria-label={social.label}
-                          data-testid={`link-social-${index}`}
+                          data-testid={`link-contact-social-${social.label.toLowerCase()}`}
                         >
                           <social.icon className="w-6 h-6" />
                         </a>
@@ -126,9 +126,9 @@ export default function Contact() {
                   <div className="space-y-4">
                     <Button
                       size="lg"
-                      className="w-full bg-orange hover:bg-orange/90 text-orange-foreground hover-elevate active-elevate-2"
+                      className="w-full bg-orange hover:bg-orange/90 text-orange-foreground hover-elevate active-elevate-2 ripple-effect"
                       asChild
-                      data-testid="button-book-call"
+                      data-testid="button-contact-call"
                     >
                       <a href="tel:+917977410005">
                         <Phone className="mr-2 h-5 w-5" />
@@ -138,9 +138,9 @@ export default function Contact() {
                     <Button
                       size="lg"
                       variant="outline"
-                      className="w-full hover-elevate"
+                      className="w-full hover-elevate active-elevate-2"
                       asChild
-                      data-testid="button-email"
+                      data-testid="button-contact-email"
                     >
                       <a href="mailto:santosh.jw@gmail.com">
                         <Mail className="mr-2 h-5 w-5" />

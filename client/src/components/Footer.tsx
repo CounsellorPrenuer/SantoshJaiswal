@@ -77,7 +77,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-primary/10 hover:bg-primary hover:text-primary-foreground rounded-lg flex items-center justify-center transition-all hover-elevate active-elevate-2"
                   aria-label={social.label}
-                  data-testid={`footer-social-${index}`}
+                  data-testid={`footer-social-${social.label.toLowerCase()}`}
                 >
                   <social.icon className="w-5 h-5" />
                 </a>

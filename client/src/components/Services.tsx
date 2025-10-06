@@ -95,7 +95,7 @@ export default function Services() {
           <Button
             size="lg"
             onClick={scrollToContact}
-            className="bg-orange hover:bg-orange/90 text-orange-foreground hover-elevate active-elevate-2"
+            className="bg-orange hover:bg-orange/90 text-orange-foreground hover-elevate active-elevate-2 ripple-effect"
             data-testid="button-services-cta"
           >
             Free Career Clarity Call

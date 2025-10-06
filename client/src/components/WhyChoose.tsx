@@ -1,7 +1,30 @@
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Card, CardContent } from '@/components/ui/card';
 import { Target, Rocket, Users, CheckCircle } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function WhyChoose() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    gsap.from(sectionRef.current.querySelectorAll('[data-pillar-card]'), {
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top 70%',
+        toggleActions: 'play none none none',
+      },
+      y: 60,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: 'power3.out',
+    });
+  }, []);
   const pillars = [
     {
       icon: Target,
@@ -26,7 +49,7 @@ export default function WhyChoose() {
   ];
 
   return (
-    <div id="why-choose" className="py-24 bg-background">
+    <div id="why-choose" className="py-24 bg-background" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
@@ -44,8 +67,7 @@ export default function WhyChoose() {
             <Card
               key={index}
               className="hover-elevate active-elevate-2 transition-all duration-300 hover:scale-105"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
+              data-pillar-card
               data-testid={`card-pillar-${index}`}
             >
               <CardContent className="p-6 text-center">

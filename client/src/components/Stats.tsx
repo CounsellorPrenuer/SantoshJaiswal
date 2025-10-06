@@ -9,6 +9,24 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Stats() {
   const statsRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (!statsRef.current) return;
+
+    gsap.from(statsRef.current.querySelectorAll('[data-stat-card]'), {
+      scrollTrigger: {
+        trigger: statsRef.current,
+        start: 'top 80%',
+        end: 'bottom 20%',
+        toggleActions: 'play none none none',
+      },
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: 'power3.out',
+    });
+  }, []);
+
   const stats = [
     {
       icon: Users,
@@ -52,8 +70,7 @@ export default function Stats() {
             <div
               key={index}
               className="text-center p-6 rounded-lg hover-elevate active-elevate-2 transition-transform hover:scale-105"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
+              data-stat-card
               data-testid={stat.testId}
             >
               <stat.icon className="w-12 h-12 mx-auto mb-4 text-primary" />
