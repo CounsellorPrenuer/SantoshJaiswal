@@ -1,8 +1,60 @@
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Card, CardContent } from '@/components/ui/card';
-import { Phone, Mail, MapPin, Clock, Linkedin, Instagram } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Linkedin, Instagram, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useToast } from '@/hooks/use-toast';
+import { apiRequest } from '@/lib/queryClient';
+import { insertContactSchema, type InsertContact } from '@shared/schema';
 
 export default function Contact() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const form = useForm<InsertContact>({
+    resolver: zodResolver(insertContactSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+    },
+  });
+
+  const onSubmit = async (data: InsertContact) => {
+    setIsSubmitting(true);
+    try {
+      const response = await apiRequest<{ gmailUrl: string }>({
+        method: 'POST',
+        url: '/api/contact',
+        data,
+      });
+
+      toast({
+        title: 'Message Sent!',
+        description: 'Your message has been submitted successfully. Redirecting to Gmail...',
+      });
+
+      form.reset();
+
+      setTimeout(() => {
+        window.open(response.gmailUrl, '_blank');
+      }, 1000);
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to send message. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const contactInfo = [
     {
       icon: Phone,
@@ -114,46 +166,105 @@ export default function Contact() {
 
             <div data-aos="fade-left">
               <Card className="h-full bg-gradient-to-br from-primary/10 via-orange/5 to-primary/10 card-hover-lift shadow-xl border-2 border-transparent hover:border-orange/20">
-                <CardContent className="p-8 flex flex-col justify-center h-full">
+                <CardContent className="p-8">
                   <h3 className="text-3xl font-bold text-gradient-primary mb-4">
-                    Ready to Start Your Journey?
+                    Send Us a Message
                   </h3>
-                  <p className="text-foreground mb-8 leading-relaxed text-lg">
-                    Book your free career clarity call today and take the first step towards
-                    achieving your professional goals. Our expert mentors are ready to guide you
-                    from confusion to clarity.
+                  <p className="text-foreground mb-6 leading-relaxed">
+                    Fill out the form below and we'll get back to you as soon as possible.
                   </p>
 
-                  <div className="space-y-4">
-                    <Button
-                      size="lg"
-                      className="w-full bg-gradient-to-r from-orange to-orange/80 hover:from-orange/90 hover:to-orange/70 text-white shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 ripple-effect"
-                      asChild
-                      data-testid="button-contact-call"
-                    >
-                      <a href="tel:+917977410005">
-                        <Phone className="mr-2 h-5 w-5" />
-                        Book A Free Call
-                      </a>
-                    </Button>
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="w-full border-2 border-primary hover:bg-primary hover:text-white shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
-                      asChild
-                      data-testid="button-contact-email"
-                    >
-                      <a href="mailto:santosh.jw@gmail.com">
-                        <Mail className="mr-2 h-5 w-5" />
-                        Send an Email
-                      </a>
-                    </Button>
-                  </div>
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-foreground font-medium">Name</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="Your full name" 
+                                {...field} 
+                                data-testid="input-contact-name"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                  <div className="mt-8 p-6 bg-white/50 dark:bg-card/50 backdrop-blur-sm rounded-xl border border-primary/20 shadow-lg">
-                    <p className="text-sm text-center text-foreground font-medium">
-                      <span className="font-bold text-2xl text-gradient-primary">2500+</span> professionals have
-                      already transformed their careers with us
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-foreground font-medium">Email</FormLabel>
+                            <FormControl>
+                              <Input 
+                                type="email" 
+                                placeholder="your.email@example.com" 
+                                {...field} 
+                                data-testid="input-contact-email"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="phone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-foreground font-medium">Phone</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="+91 XXXXXXXXXX" 
+                                {...field} 
+                                data-testid="input-contact-phone"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="message"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-foreground font-medium">Message</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                placeholder="Tell us about your career goals..." 
+                                rows={4}
+                                {...field} 
+                                data-testid="input-contact-message"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <Button
+                        type="submit"
+                        className="w-full bg-gradient-to-r from-orange to-orange/80 hover:from-orange/90 hover:to-orange/70 text-white shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 ripple-effect"
+                        disabled={isSubmitting}
+                        data-testid="button-contact-submit"
+                      >
+                        <Send className="mr-2 h-5 w-5" />
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
+                      </Button>
+                    </form>
+                  </Form>
+
+                  <div className="mt-6 p-4 bg-white/50 dark:bg-card/50 backdrop-blur-sm rounded-xl border border-primary/20">
+                    <p className="text-xs text-center text-muted-foreground">
+                      <span className="font-bold text-gradient-primary">2500+</span> professionals have already transformed their careers with us
                     </p>
                   </div>
                 </CardContent>
