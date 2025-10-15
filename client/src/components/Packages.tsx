@@ -72,7 +72,7 @@ export default function Packages() {
     setIsProcessing(true);
 
     try {
-      const orderData = await apiRequest<any>({
+      const orderData: any = await apiRequest({
         method: 'POST',
         url: '/api/payments/order',
         data: {

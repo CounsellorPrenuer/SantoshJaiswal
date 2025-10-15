@@ -11,15 +11,50 @@ export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
-): Promise<Response> {
-  const res = await fetch(url, {
+): Promise<Response>;
+export async function apiRequest(options: {
+  method: string;
+  url: string;
+  data?: unknown;
+}): Promise<any>;
+export async function apiRequest(
+  methodOrOptions: string | { method: string; url: string; data?: unknown },
+  url?: string,
+  data?: unknown,
+): Promise<any> {
+  let method: string;
+  let finalUrl: string;
+  let finalData: unknown | undefined;
+  let parseJson = false;
+
+  if (typeof methodOrOptions === 'string') {
+    method = methodOrOptions;
+    finalUrl = url!;
+    finalData = data;
+    parseJson = false;
+  } else {
+    method = methodOrOptions.method;
+    finalUrl = methodOrOptions.url;
+    finalData = methodOrOptions.data;
+    parseJson = true;
+  }
+
+  const res = await fetch(finalUrl, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
-    body: data ? JSON.stringify(data) : undefined,
+    headers: finalData ? { "Content-Type": "application/json" } : {},
+    body: finalData ? JSON.stringify(finalData) : undefined,
     credentials: "include",
   });
 
   await throwIfResNotOk(res);
+  
+  if (parseJson) {
+    const contentType = res.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      return await res.json();
+    }
+  }
+  
   return res;
 }
 

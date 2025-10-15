@@ -28,7 +28,7 @@ export default function Contact() {
   const onSubmit = async (data: InsertContact) => {
     setIsSubmitting(true);
     try {
-      const response = await apiRequest<{ gmailUrl: string }>({
+      const response: any = await apiRequest({
         method: 'POST',
         url: '/api/contact',
         data,
