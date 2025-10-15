@@ -49,12 +49,13 @@ export default function WhyChoose() {
   ];
 
   return (
-    <div id="why-choose" className="py-24 bg-background" ref={sectionRef}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div id="why-choose" className="py-24 relative overflow-hidden" ref={sectionRef}>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-orange/5"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
             Why 2500+ Professionals Chose{' '}
-            <span className="text-primary">Mentoria - Maargadarshan</span>
+            <span className="text-gradient-shine">Mentoria - Maargadarshan</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             We provide personalized mentorship and career guidance for students, working
@@ -66,18 +67,18 @@ export default function WhyChoose() {
           {pillars.map((pillar, index) => (
             <Card
               key={index}
-              className="hover-elevate active-elevate-2 transition-all duration-300 hover:scale-105"
+              className="card-hover-lift border-2 border-transparent hover:border-primary/20 shadow-lg"
               data-pillar-card
               data-testid={`card-pillar-${index}`}
             >
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                  <pillar.icon className="w-8 h-8 text-primary" />
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-primary to-orange rounded-2xl flex items-center justify-center shadow-xl rotate-3 hover:rotate-0 transition-transform duration-500">
+                  <pillar.icon className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">
+                <h3 className="text-xl font-bold text-foreground mb-3">
                   {pillar.title}
                 </h3>
-                <p className="text-sm text-muted-foreground">{pillar.description}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{pillar.description}</p>
               </CardContent>
             </Card>
           ))}

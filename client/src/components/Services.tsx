@@ -50,11 +50,12 @@ export default function Services() {
   };
 
   return (
-    <div id="services" className="py-24 bg-card">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div id="services" className="py-24 relative overflow-hidden">
+      <div className="absolute inset-0 gradient-mesh opacity-30"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-            Career Transformation <span className="text-primary">Services</span>
+            Career Transformation <span className="text-gradient-primary">Services</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Tailored guidance and mentorship for every stage of your career journey
@@ -65,24 +66,27 @@ export default function Services() {
           {services.map((service, index) => (
             <Card
               key={index}
-              className="hover-elevate active-elevate-2 transition-all duration-300 hover:scale-105"
+              className="card-hover-lift border-2 border-transparent hover:border-primary/30 bg-gradient-card shadow-xl overflow-hidden group"
               data-aos="fade-up"
               data-aos-delay={index * 100}
               data-testid={`card-service-${index}`}
             >
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                  <service.icon className="w-8 h-8 text-primary" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-orange/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <CardHeader className="text-center relative z-10">
+                <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-primary to-orange rounded-2xl flex items-center justify-center shadow-xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                  <service.icon className="w-10 h-10 text-white" />
                 </div>
-                <CardTitle className="text-2xl text-foreground">{service.title}</CardTitle>
-                <p className="text-sm text-muted-foreground mt-2">{service.subtitle}</p>
+                <CardTitle className="text-2xl text-foreground font-bold">{service.title}</CardTitle>
+                <p className="text-sm text-muted-foreground mt-2 font-medium">{service.subtitle}</p>
               </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
+              <CardContent className="relative z-10">
+                <ul className="space-y-4">
                   {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <ArrowRight className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-foreground">{feature}</span>
+                    <li key={idx} className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <ArrowRight className="w-4 h-4 text-primary" />
+                      </div>
+                      <span className="text-sm text-foreground font-medium">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -95,7 +99,7 @@ export default function Services() {
           <Button
             size="lg"
             onClick={scrollToContact}
-            className="bg-orange hover:bg-orange/90 text-orange-foreground hover-elevate active-elevate-2 ripple-effect"
+            className="bg-gradient-to-r from-orange to-orange/80 hover:from-orange/90 hover:to-orange/70 text-white shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 ripple-effect"
             data-testid="button-services-cta"
           >
             Free Career Clarity Call

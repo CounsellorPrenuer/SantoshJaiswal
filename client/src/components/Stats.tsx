@@ -61,20 +61,23 @@ export default function Stats() {
   return (
     <div
       ref={statsRef}
-      className="py-16 bg-card border-y border-border"
+      className="py-20 relative overflow-hidden"
       data-aos="fade-up"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 gradient-mesh opacity-50"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="text-center p-6 rounded-lg hover-elevate active-elevate-2 transition-transform hover:scale-105"
+              className="text-center p-8 rounded-xl bg-white/80 dark:bg-card/80 backdrop-blur-sm border border-white/20 shadow-lg card-hover-lift"
               data-stat-card
               data-testid={stat.testId}
             >
-              <stat.icon className="w-12 h-12 mx-auto mb-4 text-primary" />
-              <div className="text-4xl font-bold text-foreground mb-2">
+              <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-primary to-orange rounded-full flex items-center justify-center shadow-lg">
+                <stat.icon className="w-8 h-8 text-white" />
+              </div>
+              <div className="text-5xl font-bold text-gradient-primary mb-3">
                 <CountUp
                   end={stat.value}
                   duration={2.5}
@@ -83,7 +86,7 @@ export default function Stats() {
                   suffix={stat.suffix}
                 />
               </div>
-              <p className="text-sm text-muted-foreground font-medium">{stat.label}</p>
+              <p className="text-sm text-muted-foreground font-semibold uppercase tracking-wide">{stat.label}</p>
             </div>
           ))}
         </div>

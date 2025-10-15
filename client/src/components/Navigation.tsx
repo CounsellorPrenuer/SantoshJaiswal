@@ -33,8 +33,8 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-card/95 backdrop-blur-md shadow-md' : 'bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled ? 'bg-white/90 dark:bg-card/90 backdrop-blur-xl shadow-xl border-b border-primary/10' : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,7 +68,7 @@ export default function Navigation() {
           <div className="hidden md:block">
             <Button
               onClick={() => scrollToSection('contact')}
-              className="bg-orange hover:bg-orange/90 text-orange-foreground hover-elevate active-elevate-2 ripple-effect"
+              className="bg-gradient-to-r from-orange to-orange/80 hover:from-orange/90 hover:to-orange/70 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 ripple-effect"
               data-testid="button-nav-book-call"
             >
               Book A Free Call

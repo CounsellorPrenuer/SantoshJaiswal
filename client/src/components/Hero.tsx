@@ -58,7 +58,7 @@ export default function Hero() {
 
           <h1 className="hero-title text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
             Future-proof your career with{' '}
-            <span className="text-primary">expert guidance</span>
+            <span className="text-gradient-shine">expert guidance</span>
           </h1>
 
           <h2 className="hero-subtitle text-2xl sm:text-3xl lg:text-4xl font-semibold text-foreground/90">
@@ -75,17 +75,17 @@ export default function Hero() {
             <Button
               size="lg"
               onClick={() => scrollToSection('contact')}
-              className="bg-orange hover:bg-orange/90 text-orange-foreground text-lg px-8 py-6 hover-elevate active-elevate-2 ripple-effect"
+              className="bg-gradient-to-r from-orange to-orange/80 hover:from-orange/90 hover:to-orange/70 text-white text-lg px-10 py-7 shadow-2xl hover:shadow-orange/50 transform hover:-translate-y-1 transition-all duration-300 ripple-effect"
               data-testid="button-hero-book-call"
             >
               Book A Free Call
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-6 w-6" />
             </Button>
             <Button
               size="lg"
               variant="outline"
               onClick={() => scrollToSection('services')}
-              className="text-lg px-8 py-6 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+              className="text-lg px-10 py-7 border-2 border-primary text-primary hover:bg-primary hover:text-white shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
               data-testid="button-hero-discover"
             >
               Discover Your Path

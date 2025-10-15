@@ -53,11 +53,12 @@ export default function Packages() {
   };
 
   return (
-    <div className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-24 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-orange/5 via-transparent to-primary/5"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-            Choose Your <span className="text-primary">Package</span>
+            Choose Your <span className="text-gradient-primary">Package</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Flexible pricing for every stage of your career journey
@@ -68,43 +69,46 @@ export default function Packages() {
           {packages.map((pkg, index) => (
             <Card
               key={index}
-              className={`hover-elevate active-elevate-2 transition-all duration-300 hover:scale-105 ${
-                pkg.popular ? 'border-2 border-primary shadow-xl' : ''
+              className={`card-hover-lift overflow-hidden group relative ${
+                pkg.popular ? 'border-2 border-primary/50 shadow-2xl scale-105' : 'border-2 border-transparent shadow-xl'
               }`}
               data-aos="fade-up"
               data-aos-delay={index * 100}
               data-testid={`card-package-${index}`}
             >
               {pkg.popular && (
-                <div className="bg-primary text-primary-foreground text-center py-2 text-sm font-semibold rounded-t-lg">
-                  Most Popular
+                <div className="bg-gradient-to-r from-primary to-orange text-white text-center py-2 text-sm font-bold rounded-t-lg">
+                  ⭐ Most Popular
                 </div>
               )}
-              <CardHeader className="text-center pb-4">
-                <CardTitle className="text-2xl text-foreground">{pkg.name}</CardTitle>
-                <p className="text-sm text-muted-foreground">{pkg.subtitle}</p>
+              <div className={`absolute inset-0 bg-gradient-to-br ${pkg.popular ? 'from-primary/5 to-orange/5' : 'from-primary/3 to-orange/3'} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+              <CardHeader className="text-center pb-4 relative z-10">
+                <CardTitle className="text-2xl text-foreground font-bold">{pkg.name}</CardTitle>
+                <p className="text-sm text-muted-foreground font-medium">{pkg.subtitle}</p>
                 <div className="mt-6">
-                  <span className="text-5xl font-bold text-foreground">{pkg.price}</span>
+                  <span className="text-6xl font-bold text-gradient-primary">{pkg.price}</span>
                   <span className="text-sm text-muted-foreground align-super">{pkg.note}</span>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="relative z-10">
                 <ul className="space-y-4">
                   {pkg.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start gap-3">
-                      <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-foreground">{feature}</span>
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-orange flex items-center justify-center flex-shrink-0">
+                        <Check className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="text-sm text-foreground font-medium">{feature}</span>
                     </li>
                   ))}
                 </ul>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="relative z-10">
                 <Button
-                  className={`w-full ${
+                  className={`w-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 ${
                     pkg.popular
-                      ? 'bg-orange hover:bg-orange/90 text-orange-foreground'
-                      : 'bg-primary hover:bg-primary/90 text-primary-foreground'
-                  } hover-elevate active-elevate-2 ripple-effect`}
+                      ? 'bg-gradient-to-r from-orange to-orange/80 hover:from-orange/90 hover:to-orange/70 text-white'
+                      : 'bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white'
+                  } ripple-effect`}
                   onClick={scrollToContact}
                   data-testid={`button-package-${index}`}
                 >

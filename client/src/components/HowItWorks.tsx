@@ -30,11 +30,12 @@ export default function HowItWorks() {
   ];
 
   return (
-    <div className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-24 relative overflow-hidden">
+      <div className="absolute inset-0 gradient-mesh opacity-30"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16" data-aos="fade-up">
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-            How <span className="text-primary">Mentoria Maargadarshan</span> Works
+            How <span className="text-gradient-shine">Mentoria Maargadarshan</span> Works
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             A proven 4-step process to transform your career trajectory
@@ -45,22 +46,23 @@ export default function HowItWorks() {
           {steps.map((step, index) => (
             <Card
               key={index}
-              className="relative hover-elevate active-elevate-2 transition-all duration-300 hover:scale-105"
+              className="relative card-hover-lift shadow-xl border-2 border-transparent hover:border-primary/20 bg-gradient-card overflow-hidden group"
               data-aos="fade-up"
               data-aos-delay={index * 100}
               data-testid={`card-step-${index}`}
             >
-              <CardContent className="p-6">
-                <div className="absolute -top-4 left-6 w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-xl shadow-lg">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-orange/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <CardContent className="p-8 relative z-10">
+                <div className="absolute -top-5 left-6 w-14 h-14 bg-gradient-to-br from-primary to-orange text-white rounded-full flex items-center justify-center font-bold text-2xl shadow-xl">
                   {step.step}
                 </div>
-                <div className="w-16 h-16 mx-auto mt-4 mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                  <step.icon className="w-8 h-8 text-primary" />
+                <div className="w-20 h-20 mx-auto mt-6 mb-6 bg-gradient-to-br from-primary/20 to-orange/20 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-500">
+                  <step.icon className="w-10 h-10 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3 text-center">
+                <h3 className="text-xl font-bold text-foreground mb-4 text-center">
                   {step.title}
                 </h3>
-                <p className="text-sm text-muted-foreground text-center">{step.description}</p>
+                <p className="text-sm text-muted-foreground text-center leading-relaxed">{step.description}</p>
               </CardContent>
             </Card>
           ))}
