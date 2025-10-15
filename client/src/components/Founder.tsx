@@ -44,7 +44,7 @@ export default function Founder() {
                     <img
                       src={founderImage}
                       alt="Santosh S Jaiswal"
-                      className="w-48 h-48 rounded-full object-cover mx-auto mb-6 border-4 border-primary/20 shadow-xl"
+                      className="w-64 h-80 rounded-md object-cover mx-auto mb-6 border-4 border-primary/20 shadow-xl"
                       data-testid="img-founder"
                     />
                     <h3 className="text-2xl font-bold text-foreground mb-2">
