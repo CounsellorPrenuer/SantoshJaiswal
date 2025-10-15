@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Award, Users, BookOpen, ArrowRight } from 'lucide-react';
-import founderImage from '@assets/Santosh - santosh jaiswal_1759735777095.jfif';
+import founderImage from '@assets/Santosh - santosh jaiswal_1759735777095.jpg';
 
 export default function Founder() {
   const certifications = [

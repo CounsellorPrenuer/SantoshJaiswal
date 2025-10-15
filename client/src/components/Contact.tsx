@@ -13,8 +13,8 @@ export default function Contact() {
     {
       icon: Mail,
       label: 'Email',
-      value: 'santosh.jw@gmail.com',
-      href: 'mailto:santosh.jw@gmail.com',
+      value: 'jaiswalsantoshmehr@gmail.com',
+      href: 'mailto:jaiswalsantoshmehr@gmail.com',
     },
     {
       icon: MapPin,
