@@ -29,14 +29,25 @@ export function submitLead(payload: AnyObject) {
 }
 
 export function previewCoupon(payload: AnyObject) {
-  return post("/api/coupons/preview", payload);
+  const { coupon_code, code, ...rest } = payload;
+  return post("/api/coupons/preview", { ...rest, code: code || coupon_code });
+}
+
+function withCustomer(payload: AnyObject): AnyObject {
+  const customer = (payload.customer || {}) as AnyObject;
+  return {
+    ...payload,
+    name: payload.name ?? customer.name,
+    email: payload.email ?? customer.email,
+    phone: payload.phone ?? customer.phone,
+  };
 }
 
 export function createOrder(payload: AnyObject) {
-  return post("/api/payments/create-order", payload);
+  return post("/api/payments/create-order", withCustomer(payload));
 }
 
 export function verifyPayment(payload: AnyObject) {
-  return post("/api/payments/verify", payload);
+  return post("/api/payments/verify", withCustomer(payload));
 }
 

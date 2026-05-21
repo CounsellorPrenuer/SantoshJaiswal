@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Check, ShoppingCart } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { createOrder, previewCoupon, verifyPayment } from '@/lib/workerApi';
-import { PROJECT_ID } from '@/lib/platform';
 import { sanityClient, type CustomPlan, type StandardPlan } from '@/lib/sanity';
 
 declare global {
@@ -20,6 +19,15 @@ declare global {
 
 type Tab = '8-10' | '10-12' | 'college' | 'working';
 const tabs: Tab[] = ['8-10', '10-12', 'college', 'working'];
+const inrFormatter = new Intl.NumberFormat('en-IN', {
+  style: 'currency',
+  currency: 'INR',
+  maximumFractionDigits: 0,
+});
+const formatInr = (amount: number) => {
+  const formatted = inrFormatter.format(amount);
+  return formatted.includes('₹') ? formatted : formatted.replace('INR', 'Rs.');
+};
 
 const fallbackStandard: StandardPlan[] = [
   { planId: 'pkg-1', title: 'Discover', subgroup: '8-10', price: 5500, features: ['Psychometric assessment', '1 career counselling session', 'Lifetime Knowledge Gateway access', 'Live webinar invites'], order: 1 },
@@ -39,7 +47,7 @@ const fallbackCustom: CustomPlan[] = [
   { planId: 'one-to-one-session', title: 'One-to-One Session with a Career Expert', price: 3500, description: 'Resolve your career queries and glimpse into your future world through a one-on-one session with an expert from your chosen field.', order: 4 },
   { planId: 'college-admission-planning', title: 'College Admission Planning', price: 3000, description: 'Get unbiased recommendations and details on your future college options in India and abroad, organised in one resourceful planner.', order: 5 },
   { planId: 'exam-stress-management', title: 'Exam Stress Management', price: 1000, description: "Get expert guidance on tackling exam stress, planning your study schedule, revision tips and more from India's top educators. Increase your chances of acing exams with a calm and clear mind.", order: 6 },
-  { planId: 'cap-100', title: 'College Admissions Planner - 100 (CAP-100)', price: 199, description: '?199 for a ranked list of the top 100 colleges in your course. Get an expert-curated list of colleges based on verified cut-offs. CAP-100 ranks the top 100 colleges into four tiers to help you plan smarter: Indian Ivy League, Target, Smart Backup, and Safe Bet colleges. You can then shortlist colleges based on where you stand!', order: 7 },
+  { planId: 'cap-100', title: 'College Admissions Planner - 100 (CAP-100)', price: 199, description: 'Rs. 199 for a ranked list of the top 100 colleges in your course. Get an expert-curated list of colleges based on verified cut-offs. CAP-100 ranks the top 100 colleges into four tiers to help you plan smarter: Indian Ivy League, Target, Smart Backup, and Safe Bet colleges. You can then shortlist colleges based on where you stand!', order: 7 },
 ];
 
 export default function Packages() {
@@ -147,7 +155,12 @@ export default function Packages() {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error: any) {
-      toast({ title: 'Payment Failed', description: error.message || 'Failed to initiate payment', variant: 'destructive' });
+      const rawMessage = String(error?.message || '');
+      const friendlyMessage =
+        rawMessage.includes('Invalid project_id')
+          ? 'Payment is temporarily unavailable. Please try again shortly or contact support.'
+          : rawMessage || 'Failed to initiate payment';
+      toast({ title: 'Payment Failed', description: friendlyMessage, variant: 'destructive' });
     } finally {
       setIsProcessing(false);
     }
@@ -175,7 +188,7 @@ export default function Packages() {
               <CardHeader>
                 <Badge>{pkg.subgroup}</Badge>
                 <CardTitle>{pkg.title}</CardTitle>
-                <div className="text-3xl font-bold text-gradient-primary">?{pkg.price.toLocaleString()}</div>
+                <div className="text-3xl font-bold text-gradient-primary">{formatInr(pkg.price)}</div>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
@@ -199,7 +212,7 @@ export default function Packages() {
               <Card key={plan.planId}>
                 <CardHeader>
                   <CardTitle>{plan.title}</CardTitle>
-                  <div className="text-2xl font-bold text-gradient-primary">?{plan.price.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-gradient-primary">{formatInr(plan.price)}</div>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">{plan.description}</p>
@@ -219,14 +232,7 @@ export default function Packages() {
           {selectedPlan && (
             <div className="space-y-3">
               <p className="font-semibold">{selectedPlan.title}</p>
-              <p className="text-xl">?{(couponState?.finalAmount ?? selectedPlan.price).toLocaleString()}</p>
-
-              <Label htmlFor="coupon">Coupon</Label>
-              <div className="flex gap-2">
-                <Input id="coupon" value={couponCode} onChange={(e) => setCouponCode(e.target.value)} placeholder="Enter coupon" />
-                <Button type="button" variant="outline" onClick={applyCoupon}>Apply</Button>
-              </div>
-              {couponState && <p className={couponState.ok ? 'text-green-600 text-sm' : 'text-red-600 text-sm'}>{couponState.message}</p>}
+              <p className="text-xl">{formatInr(couponState?.finalAmount ?? selectedPlan.price)}</p>
 
               <Label htmlFor="payer-name">Full Name</Label>
               <Input id="payer-name" value={payerInfo.name} onChange={(e) => setPayerInfo({ ...payerInfo, name: e.target.value })} />
@@ -235,10 +241,16 @@ export default function Packages() {
               <Label htmlFor="payer-phone">Phone</Label>
               <Input id="payer-phone" value={payerInfo.phone} onChange={(e) => setPayerInfo({ ...payerInfo, phone: e.target.value })} />
 
+              <Label htmlFor="coupon">Coupon</Label>
+              <div className="flex gap-2">
+                <Input id="coupon" value={couponCode} onChange={(e) => setCouponCode(e.target.value)} placeholder="Enter coupon" />
+                <Button type="button" variant="outline" onClick={applyCoupon}>Apply</Button>
+              </div>
+              {couponState && <p className={couponState.ok ? 'text-green-600 text-sm' : 'text-red-600 text-sm'}>{couponState.message}</p>}
+
               <Button onClick={initiatePayment} disabled={isProcessing} className="w-full">
                 {isProcessing ? 'Processing...' : 'Proceed to Payment'}
               </Button>
-              <p className="text-xs text-muted-foreground">Tenant: {PROJECT_ID}</p>
             </div>
           )}
         </DialogContent>
@@ -246,3 +258,4 @@ export default function Packages() {
     </div>
   );
 }
+
