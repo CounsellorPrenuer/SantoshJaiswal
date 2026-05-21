@@ -11,6 +11,7 @@ import Packages from '@/components/Packages';
 import Founder from '@/components/Founder';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import BlogSection from '@/components/BlogSection';
 
 export default function Home() {
   useEffect(() => {
@@ -30,6 +31,7 @@ export default function Home() {
       <Services />
       <HowItWorks />
       <Testimonials />
+      <BlogSection />
       <Packages />
       <Founder />
       <Contact />

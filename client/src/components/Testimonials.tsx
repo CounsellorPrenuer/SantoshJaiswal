@@ -4,6 +4,8 @@ import Autoplay from 'embla-carousel-autoplay';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { sanityClient } from '@/lib/sanity';
 
 export default function Testimonials() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
@@ -18,7 +20,7 @@ export default function Testimonials() {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  const testimonials = [
+  const fallbackTestimonials = [
     {
       name: 'SP',
       role: 'Engineering Student',
@@ -40,6 +42,12 @@ export default function Testimonials() {
       quote: 'I learned how to pivot in my career without losing momentum.',
     },
   ];
+  const { data } = useQuery({
+    queryKey: ['sanity-testimonials'],
+    queryFn: async () =>
+      sanityClient.fetch(`*[_type == "testimonials"] | order(order asc){name,role,achievement,quote}`),
+  });
+  const testimonials = data?.length ? data : fallbackTestimonials;
 
   return (
     <div className="py-24 bg-card">

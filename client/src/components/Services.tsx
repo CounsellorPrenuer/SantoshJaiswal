@@ -1,9 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { GraduationCap, Briefcase, Building2, ArrowRight } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { sanityClient } from '@/lib/sanity';
 
 export default function Services() {
-  const services = [
+  const fallbackServices = [
     {
       icon: GraduationCap,
       title: 'For Students',
@@ -41,6 +43,13 @@ export default function Services() {
       color: 'primary',
     },
   ];
+
+  const { data } = useQuery({
+    queryKey: ['sanity-services'],
+    queryFn: async () =>
+      sanityClient.fetch(`*[_type == "services"] | order(order asc){title,subtitle,features}`),
+  });
+  const services = data?.length ? data.map((s: any) => ({ ...s, icon: GraduationCap, color: 'primary' })) : fallbackServices;
 
   const scrollToContact = () => {
     const element = document.getElementById('contact');
